@@ -1,0 +1,44 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using VkNet;
+using VkNet.Enums.Filters;
+using VkNet.Model.RequestParams;
+
+
+namespace Testapp
+{
+    public partial class Form1 : Form
+    {
+        Logic logic = new Logic();
+        public Form1()
+        {
+            InitializeComponent();
+        }
+        private void btn_auth_Click(object sender, EventArgs e)
+        {
+            AuthForm f2 = new AuthForm(logic);
+            f2.ShowDialog();
+            if (logic.uspeh == true)
+                Logic();
+        }
+        
+        public void Logic()
+        {
+            if (logic.uspeh == true)
+            {                
+                btn_auth.Hide();
+                lb_hilabel.Text = "Лучший в мире Говорун.";
+                lb_Authorization.Text = "Добро пожаловать "+ logic.name;
+                lb_Authorization.TextAlign = ContentAlignment.TopCenter;
+                
+            }
+        }
+    }
+}
