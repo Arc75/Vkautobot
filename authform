@@ -1,0 +1,79 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using Testapp.Model;
+
+
+namespace Testapp
+{
+    public partial class AuthForm : Form
+    {
+        public Logic log;
+        public AuthForm(Logic logic)
+        {
+            log = logic;
+            InitializeComponent();
+        }
+        
+        public void btn_login_Click(object sender, EventArgs e)
+        {            
+            Init initial = new Init();          
+            if (tb_Login.Text != "" && tb_Login != null )
+            {
+                if (tb_Pass.Text != "")
+                {
+                    btn_login.Hide();                    
+                    lb_loading.Visible = true;
+                    tm_loading.Enabled = true;                    
+                    List<Usermodel> user1 = new List<Usermodel> { new Usermodel { Login = tb_Login.Text, Pass = tb_Pass.Text } };
+                    Init.user = user1;
+                    log.Auth();
+                }
+                else
+                    tb_Pass.Text = "Введи пароль!!!";                
+            }
+            else
+                tb_Login.Text = "Введи номер!!!!";
+                               
+            if (log.uspeh == true)
+            {
+                lb_loading.Text = "Успех!";
+                tm_close.Enabled = true;             
+            }    
+            else
+            {
+                lb_authgreet.Text = "Давай по новой, Миша...";
+                tb_Login.Text = "КОСЯЯЯЯК";
+                tb_Login.BackColor = Color.Red;                
+                tb_Pass.Text = "КОСЯЯЯЯК";
+                tb_Pass.BackColor = Color.Red;
+            }        
+        }
+
+        private void tm_close_Tick(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void tb_Pass_Click(object sender, EventArgs e)
+        {
+            tb_Pass.BackColor = Color.White;
+            tb_Login.BackColor = Color.White;
+            InputLanguage mcl = InputLanguage.CurrentInputLanguage;
+            lb_keyboard.Text = mcl.LayoutName;
+        }
+
+        private void tb_Pass_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            InputLanguage mcl = InputLanguage.CurrentInputLanguage;
+            lb_keyboard.Text = mcl.LayoutName;
+        }
+    }
+}
